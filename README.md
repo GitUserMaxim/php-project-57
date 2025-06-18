@@ -13,3 +13,5 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=GitUserMaxim_php-project-57&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=GitUserMaxim_php-project-57)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=GitUserMaxim_php-project-57&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=GitUserMaxim_php-project-57)
+
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=GitUserMaxim_php-project-57&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=GitUserMaxim_php-project-57)
