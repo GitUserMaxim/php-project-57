@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class TaskStatusController extends Controller
 {
 
-     public function __construct()
+    public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->authorizeResource(TaskStatus::class, 'task_status');
     }
     
     /**

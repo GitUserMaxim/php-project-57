@@ -3,9 +3,9 @@ install:
 validate:
 	composer validate
 lint:
-	composer exec --verbose phpcs -- --standard=PSR12 --colors app routes tests
+	composer exec --verbose phpcs -- --standard=PSR12 --colors app routes tests resources
 beauty:
-	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests
+	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests resources
 up:
 	composer update
 test:
