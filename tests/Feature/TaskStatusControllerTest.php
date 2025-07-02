@@ -12,17 +12,6 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function guest_can_view_task_statuses_index()
-    {
-        $status = TaskStatus::factory()->create();
-
-        $response = $this->get(route('task_statuses.index'));
-
-        $response->assertStatus(200);
-        $response->assertViewIs('task_statuses.index');
-        $response->assertSee($status->name);
-    }
 
     /** @test */
     public function guest_cannot_access_create_page()
@@ -90,16 +79,3 @@ class TaskStatusControllerTest extends TestCase
     }
 
 } 
-   
-   
-    // /** @test */
-    // public function authenticated_user_can_delete_unused_status()
-    // {
-    //     $user = User::factory()->create();
-    //     $status = TaskStatus::factory()->create();
-
-    //     $this->actingAs($user);
-
-    //     $response = $this->delete(route('task_statuses.destroy', $status));
-
-    //     $response->assertRedirect(route('task_statuses

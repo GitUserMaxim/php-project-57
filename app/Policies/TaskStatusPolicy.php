@@ -17,7 +17,7 @@ public function view(?User $user, TaskStatus $taskStatus): bool
     return true;
 }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
         return true;
     }

@@ -12,6 +12,7 @@ class TaskStatusController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->authorizeResource(TaskStatus::class, 'task_status');
     }
     
@@ -29,7 +30,7 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-      return view('task_statuses.create');
+      return view('task_statuses.create');      
     }
 
     /**

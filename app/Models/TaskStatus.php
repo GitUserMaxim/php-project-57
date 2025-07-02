@@ -13,6 +13,6 @@ class TaskStatus extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class); // если у вас есть модель Task
+        return $this->hasMany(Task::class);
     }
 }
