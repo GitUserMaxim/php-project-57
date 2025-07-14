@@ -1,0 +1,94 @@
+@extends('layouts.app')
+
+@section('content')
+  <section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+        <div class="col-span-full">
+            <h1 class="mb-5 text-3xl font-bold text-gray-800 dark:text-gray-100">
+                {{ __('messages.Tasks') }}
+            </h1>
+      @auth
+      <a href="{{ route('tasks.create') }}"
+         class="inline-block mb-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+        {{ __('messages.Create Task') }}
+      </a>
+      @endauth
+      <div class="overflow-x-auto shadow-md rounded-lg">
+        <table class="min-w-full mx-auto divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-800">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('ID') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Status') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Name') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Created By') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Assigned To') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Created At') }}
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {{ __('messages.Actions') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            @foreach ($tasks as $task)
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  {{ $task->id }}
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  {{ $task->status->name ?? '-' }}
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  <a href="{{ route('tasks.show', $task) }}"
+                     class="text-blue-600 dark:text-blue-400 hover:underline">
+                    {{ $task->name }}
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  {{ $task->creator->name ?? '-' }}
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  {{ $task->assignee->name ?? '-' }}
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
+                  {{ $task->created_at->format('Y-m-d H:i') }}
+                </td>
+                <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap space-x-2">
+                  @auth
+                    <a href="{{ route('tasks.edit', $task) }}"
+                       class="text-green-600 dark:text-green-400 hover:underline">
+                      {{ __('messages.Edit') }}
+                    </a>
+
+                    @if (Auth::id() === $task->created_by_id)
+                      <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                onclick="return confirm('{{ __('messages.Are you sure?') }}')"
+                                class="text-red-600 dark:text-red-400 hover:underline">
+                          {{ __('messages.Delete') }}
+                        </button>
+                      </form>
+                    @endif
+                  @endauth
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+@endsection

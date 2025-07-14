@@ -1,45 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-12">
-    <h1 class="text-2xl font-bold mb-4">{{ __('messages.Statuses') }}</h1>
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+        <div class="grid col-span-full">
+            <h1 class="mb-5 text-5xl text-gray-900 dark:text-white">
+                {{ __('messages.Statuses') }}
+            </h1>
 
-    @auth
-        <a href="{{ route('task_statuses.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
-            {{ __('messages.Create status') }}
-        </a>
-    @endauth
+            @auth
+                <div class="mb-4">
+                    <a href="{{ route('task_statuses.create') }}"
+                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+                        {{ __('messages.Create status') }}
+                    </a>
+                </div>
+            @endauth
 
-    <table class="min-w-full mt-4 text-white border border-gray-700">
-        <thead class="bg-gray-800">
-            <tr>
-                <th class="px-4 py-2 border-b border-gray-600">ID</th>
-                <th class="px-4 py-2 border-b border-gray-600">{{ __('messages.Status') }}</th>
-                <th class="px-4 py-2 border-b border-gray-600">{{ __('messages.Date creation') }}</th>
-                <th class="px-4 py-2 border-b border-gray-600">{{ __('messages.Actions') }}</th>
-            </tr>
-        </thead>
-        <tbody class="bg-gray-900">
-            @foreach ($statuses as $status)
-                <tr>
-                    <td class="px-4 py-2 border-b border-gray-700">{{ $status->id }}</td>
-                    <td class="px-4 py-2 border-b border-gray-700">{{ $status->name }}</td>
-                    <td class="px-4 py-2 border-b border-gray-700">{{ $status->created_at->format('d.m.Y') }}</td>
-                    <td class="px-4 py-2 border-b border-gray-700">
-                        <form action="{{ route('task_statuses.destroy', $status) }}" method="POST" class="inline-block mr-2" onsubmit="return confirm('{{ __('Are you sure you want to delete the status') }}?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:text-red-700 transition-colors duration-200">
-                                {{ __('messages.Delete') }}
-                            </button>
-                        </form>
-                        <a href="{{ route('task_statuses.edit', $status) }}" class="text-blue-500 hover:text-blue-700 transition-colors duration-200">
-                            {{ __('messages.Edit') }}
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            <div class="overflow-x-auto mt-4">
+                <table class="w-full">
+                    <thead class="border-b-2 border-solid border-black text-left text-gray-900 dark:text-white">
+                        <tr>
+                            <th class="px-4 py-2">{{ __('ID') }}</th>
+                            <th class="px-4 py-2">{{ __('messages.Name') }}</th>
+                            <th class="px-4 py-2">{{ __('messages.Date creation') }}</th>
+                            <th class="px-4 py-2">{{ __('messages.Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($statuses as $status)
+                            <tr class="border-b border-dashed text-left text-gray-800 dark:text-white">
+                                <td class="px-4 py-2">{{ $status->id }}</td>
+                                <td class="px-4 py-2">{{ $status->name }}</td>
+                                <td class="px-4 py-2">{{ $status->created_at->format('d.m.Y') }}</td>
+                                <td class="px-4 py-2">
+                                    @auth
+                                        <form action="{{ route('task_statuses.destroy', $status) }}" method="POST" class="inline-block" onsubmit="return confirm('{{ __('Are you sure you want to delete the status?') }}');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900 mr-4">
+                                                {{ __('messages.Delete') }}
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('task_statuses.edit', $status) }}" class="text-blue-600 hover:text-blue-900">
+                                            {{ __('messages.Edit') }}
+                                        </a>
+                                    @endauth
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
 @endsection

@@ -8,14 +8,14 @@ use App\Models\TaskStatus;
 class TaskStatusPolicy
 {
     public function viewAny(?User $user): bool
-{
-    return true;
-}
+    {
+        return true;
+    }
 
-public function view(?User $user, TaskStatus $taskStatus): bool
-{
-    return true;
-}
+    public function view(?User $user, TaskStatus $taskStatus): bool
+    {
+        return true;
+    }
 
     public function create(?User $user): bool
     {
@@ -29,8 +29,7 @@ public function view(?User $user, TaskStatus $taskStatus): bool
 
     public function delete(User $user, TaskStatus $taskStatus): bool
     {
-        // Можно запретить удаление, если статус используется в задачах
-       // return !$taskStatus->tasks()->exists();
-       return true;
+       return !$taskStatus->tasks()->exists();
+
     }
 }

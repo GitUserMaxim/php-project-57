@@ -2,10 +2,10 @@ install:
 	composer install
 validate:
 	composer validate
-lint:
-	composer exec --verbose phpcs -- --standard=PSR12 --colors app routes tests resources
+lint1:
+	composer exec --verbose phpcs -- --standard=PSR12 --colors app routes tests
 beauty:
-	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests resources
+	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests
 up:
 	composer update
 test:
@@ -18,3 +18,5 @@ check:
 	vendor/bin/phpstan analyse --level 5 src
 start:
 	php artisan serve	
+test1:
+	php artisan test tests/Feature/TaskStatusControllerTest.php	

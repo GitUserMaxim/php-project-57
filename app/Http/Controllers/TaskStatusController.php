@@ -6,23 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laracasts\Flash\Flash;
 
 class TaskStatusController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth');
         $this->authorizeResource(TaskStatus::class, 'task_status');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       $statuses = TaskStatus::all();
-       return view('task_statuses.index', compact('statuses'));
+        $statuses = TaskStatus::all();
+        return view('task_statuses.index', compact('statuses'));
     }
 
     /**
@@ -30,7 +29,7 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-      return view('task_statuses.create');      
+        return view('task_statuses.create');
     }
 
     /**
@@ -41,8 +40,9 @@ class TaskStatusController extends Controller
         $request->validate(['name' => 'required|string|max:255']);
         TaskStatus::create($request->only('name'));
 
-        return redirect()->route('task_statuses.index')
-            ->with('success', __('Status created successfully.'));
+         flash(__('messages.Status successfully created'))->success();
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
@@ -58,7 +58,7 @@ class TaskStatusController extends Controller
      */
     public function edit(TaskStatus $task_status)
     {
-       return view('task_statuses.edit', compact('task_status'));
+        return view('task_statuses.edit', compact('task_status'));
     }
 
     /**
@@ -66,11 +66,11 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $task_status)
     {
-       $request->validate(['name' => 'required|string|max:255']);
+        $request->validate(['name' => 'required|string|max:255']);
         $task_status->update($request->only('name'));
 
-        return redirect()->route('task_statuses.index')
-            ->with('success', __('Status updated successfully.'));
+          flash(__('Статус успешно изменён'))->success();
+          return redirect()->route('task_statuses.index');
     }
 
     /**
@@ -79,13 +79,12 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $task_status)
     {
         if ($task_status->tasks()->exists()) {
-            return redirect()->route('task_statuses.index')
-                ->with('error', __('Cannot delete status with tasks.'));
+            flash(__('Невозможно удалить статус с назначенными задачами'))->error();
+            return redirect()->route('task_statuses.index');
         }
 
         $task_status->delete();
-        return redirect()->route('task_statuses.index')
-            ->with('success', __('Status deleted successfully.'));
-    
+        flash(__('Статус успешно удалён'))->success();
+        return redirect()->route('task_statuses.index');
     }
 }

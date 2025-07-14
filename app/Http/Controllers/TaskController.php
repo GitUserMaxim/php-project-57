@@ -2,63 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
+use App\Models\User;
+use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+{
+    $this->authorizeResource(Task::class, 'task');
+}
+
     public function index()
     {
-        //
+        $tasks = Task::with(['status', 'creator', 'assignee'])->get();
+        return view('tasks.index', compact('tasks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show(Task $task)
+    {
+        return view('tasks.show', compact('task'));
+    }
+
     public function create()
     {
-        //
+        $statuses = TaskStatus::all();
+        $users = User::all();
+        return view('tasks.create', compact('statuses', 'users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+        ]);
+
+        $validated['created_by_id'] = auth()->id();
+
+        Task::create($validated);
+
+        return redirect()->route('tasks.index')->with('success', 'Task created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Task $task)
     {
-        //
+        $statuses = TaskStatus::all();
+        $users = User::all();
+        return view('tasks.edit', compact('task', 'statuses', 'users'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+        ]);
+
+        $task->update($validated);
+
+        return redirect()->route('tasks.index')->with('success', 'Task updated.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function destroy(Task $task)
+{
+    $this->authorize('delete', $task); // ← ВАЖНО
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    $task->delete();
+
+    return redirect()->route('tasks.index')->with('success', 'Task deleted.');
+}
 }
