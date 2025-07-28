@@ -16,9 +16,10 @@
                         <div class="mt-2">
                             <input class="rounded border-gray-300 w-1/3 @error('name') border-red-500 @enderror"
                                    type="text" name="name" id="name" value="{{ old('name') }}">
-                            @error('messages.name')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @error('name')
+                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
                             @enderror
+
                         </div>
 
                         <div class="mt-2">

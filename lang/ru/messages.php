@@ -2,7 +2,7 @@
 
 return [
     'Password' => 'Пароль',
-    'Remember me' => 'Запомнить',
+    'Remember me' => 'Запомнить меня',
     'Email' => 'Email',
     'Login' => 'Вход',
     'The email has already been taken.' => 'Этот email уже зарегистрирован',
@@ -15,7 +15,7 @@ return [
     'Statuses' => 'Статусы',
     'Status' => 'Статус',
     'Labels' => 'Метки',
-    'Forgot your password?' => 'Забыли свой пароль?',
+    'Forgot your password?' => 'Забыли пароль?',
     'Name' => 'Имя',
     'Already registered?' => 'Уже зарегистрированы?',
     'Confirm Password' => 'Подтверждение',
@@ -62,7 +62,7 @@ return [
     'The label was successfully deleted' => 'Метка успешно удалена',
     'Failed to delete label' => 'Не удалось удалить метку',
     'Status successfully created' => 'Статус успешно создан',
-    'Status successfully changed' => 'Статус успешно изменён',
+    'Status successfully updated' => 'Статус успешно изменён',
     'Status successfully deleted' => 'Статус успешно удалён',
     'Failed to delete status' => 'Не удалось удалить статус',
     'False authenticate' => 'Введите правильные имя пользователя и пароль',
@@ -76,10 +76,14 @@ return [
     'A task with this name already exists' => 'Задача с таким именем уже существует',
     'Date creation' => 'Дата создания',
     'Actions' => 'Действия',
-    'Update' => 'Изменить2',
+    'Update label' => 'Изменить',
     'Created By' => 'Автор',
     'Assigned To' => 'Исполнитель',
     'Created At' => 'Дата создания',
     'Register1' => 'Регистрация',
     'Create Label' => 'Создать метку',
-];
+    'Edit Task' => 'Изменение задачи',
+    'Update' => 'Обновить',
+    'Save' => 'Создать',
+    'Status cannot be deleted because it is used' => 'Не удалось удалить статус',
+ ];

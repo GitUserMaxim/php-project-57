@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laracasts\Flash\Flash;
+use Illuminate\Validation\Rule;
 
 class TaskStatusController extends Controller
 {
@@ -37,10 +37,14 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+         $request->validate([
+        'name' => 'required|string|max:255|unique:task_statuses,name',
+    ], [
+        'name.unique' => 'Статус с таким именем уже существует',
+    ]);
         TaskStatus::create($request->only('name'));
 
-         flash(__('messages.Status successfully created'))->success();
+        flash(__('messages.Status successfully created'))->success();
 
         return redirect()->route('task_statuses.index');
     }
@@ -66,10 +70,19 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $task_status)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+    'name' => [
+        'required',
+        'string',
+        'max:255',
+        Rule::unique('task_statuses', 'name')->ignore($task_status->id),
+    ],
+], [
+    'name.unique' => 'Статус с таким именем уже существует',
+]);
         $task_status->update($request->only('name'));
 
-          flash(__('Статус успешно изменён'))->success();
+          flash(__('messages.Status successfully updated'))->success();
           return redirect()->route('task_statuses.index');
     }
 
@@ -79,12 +92,12 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $task_status)
     {
         if ($task_status->tasks()->exists()) {
-            flash(__('Невозможно удалить статус с назначенными задачами'))->error();
+            flash(__('messages.Status cannot be deleted because it is used'))->error();
             return redirect()->route('task_statuses.index');
         }
 
         $task_status->delete();
-        flash(__('Статус успешно удалён'))->success();
+        flash(__('messages.Status successfully deleted'))->success();
         return redirect()->route('task_statuses.index');
     }
 }

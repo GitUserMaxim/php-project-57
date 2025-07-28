@@ -30,10 +30,10 @@
                     <tbody>
                         @foreach ($statuses as $status)
                             <tr class="border-b border-dashed text-left text-gray-800 dark:text-white">
-                                <td class="px-4 py-2">{{ $status->id }}</td>
-                                <td class="px-4 py-2">{{ $status->name }}</td>
-                                <td class="px-4 py-2">{{ $status->created_at->format('d.m.Y') }}</td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-1">{{ $status->id }}</td>
+                                <td class="px-4 py-1">{{ $status->name }}</td>
+                                <td class="px-4 py-1">{{ $status->created_at->format('d.m.Y') }}</td>
+                                <td class="px-4 py-1">
                                     @auth
                                         <form action="{{ route('task_statuses.destroy', $status) }}" method="POST" class="inline-block" onsubmit="return confirm('{{ __('Are you sure you want to delete the status?') }}');">
                                             @csrf

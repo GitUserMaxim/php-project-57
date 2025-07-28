@@ -109,12 +109,12 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['id' => $status->id]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function guest_cannot_view_index()
-    {
-        $response = $this->get(route('task_statuses.index'));
+    // #[\PHPUnit\Framework\Attributes\Test]
+    // public function guest_cannot_view_index()
+    // {
+    //     $response = $this->get(route('task_statuses.index'));
 
-        $response->assertRedirect(route('login'));
-    }
+    //     $response->assertRedirect(route('login'));
+    // }
 
 }

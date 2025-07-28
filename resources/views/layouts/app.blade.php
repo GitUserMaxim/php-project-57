@@ -15,7 +15,6 @@
 </head>
 <body>
 <div id="app">
-
     <header class="fixed w-full z-50">
         <nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md h-16">
             <div class="max-w-screen-xl mx-auto px-4 flex items-center justify-between h-full">
@@ -70,10 +69,9 @@
         </nav>
     </header>
 
-    <!-- Основной контент с отступом сверху, чтобы не перекрываться фиксированным header -->
     <main class="pt-16 bg-white dark:bg-gray-900">
         <div class="max-w-screen-xl px-4 mx-auto">
-            @include('flash::message')
+            <x-flash />
             @yield('content')
         </div>
     </main>

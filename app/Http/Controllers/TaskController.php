@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\TaskStatus;
@@ -29,7 +30,8 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::all();
         $users = User::all();
-        return view('tasks.create', compact('statuses', 'users'));
+        $labels = Label::all();
+        return view('tasks.create', compact('statuses', 'users', 'labels'));
     }
 
     public function store(Request $request)

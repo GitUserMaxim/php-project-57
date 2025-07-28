@@ -19,4 +19,6 @@ check:
 start:
 	php artisan serve	
 test1:
-	php artisan test tests/Feature/TaskStatusControllerTest.php	
+	php artisan test tests/Feature/TaskStatusControllerTest.php
+test2:
+	php artisan test tests/Feature/TaskControllerTest.php

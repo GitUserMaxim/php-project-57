@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Label;
+use Illuminate\Validation\Rule;
 
 class LabelController extends Controller
 {
@@ -21,13 +22,17 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:labels,name',
             'description' => 'nullable|string',
+        ], [
+            'name.unique' => 'Метка с таким именем уже существует',
         ]);
 
         Label::create($validated);
 
-        return redirect()->route('labels.index')->with('success', __('messages.Label created successfully'));
+        flash(__('messages.The label was created successfully'))->success();
+
+        return redirect()->route('labels.index');
     }
 
     public function edit(Label $label)
@@ -37,14 +42,21 @@ class LabelController extends Controller
 
     public function update(Request $request, Label $label)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+       $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('labels', 'name')->ignore($label->id),
+            ],
             'description' => 'nullable|string',
+        ], [
+            'name.unique' => 'Метка с таким именем уже существует',
         ]);
 
         $label->update($validated);
-
-        return redirect()->route('labels.index')->with('success', __('messages.Label updated successfully'));
+        flash(__('messages.Label changed successfully'))->success();
+        return redirect()->route('labels.index');
     }
 
     public function destroy(Label $label)
@@ -56,7 +68,7 @@ class LabelController extends Controller
         }
 
         $label->delete();
-
-        return redirect()->route('labels.index')->with('success', __('messages.Label deleted'));
+        flash(__('messages.The label was successfully deleted'))->success();
+        return redirect()->route('labels.index');
     }
 }

@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Status;
+use App\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,12 +16,13 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->post('/tasks', []);
         $response->assertRedirect('/login');
+        
     }
 
     public function test_user_can_create_task()
     {
         $user = User::factory()->create();
-        $status = Status::factory()->create();
+        $status = TaskStatus::factory()->create();
 
         $this->actingAs($user)
             ->post('/tasks', [

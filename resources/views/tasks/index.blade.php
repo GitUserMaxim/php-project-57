@@ -4,7 +4,7 @@
   <section class="bg-white dark:bg-gray-900">
     <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
         <div class="col-span-full">
-            <h1 class="mb-5 text-3xl font-bold text-gray-800 dark:text-gray-100">
+            <h1 class="mb-5 text-5xl text-gray-900 dark:text-white">
                 {{ __('messages.Tasks') }}
             </h1>
       @auth
@@ -13,30 +13,27 @@
         {{ __('messages.Create Task') }}
       </a>
       @endauth
-      <div class="overflow-x-auto shadow-md rounded-lg">
-        <table class="min-w-full mx-auto divide-y divide-gray-200 dark:divide-gray-700">
-          <thead class="bg-gray-50 dark:bg-gray-800">
+      <div class="overflow-x-auto mt-4">
+                <table class="w-full">
+                    <thead class="border-b-2 border-solid border-black text-left text-gray-900 dark:text-white">
             <tr>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('ID') }}
               </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('messages.Status') }}
               </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('messages.Name') }}
               </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('messages.Created By') }}
               </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('messages.Assigned To') }}
               </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              <th class="px-4 py-0 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {{ __('messages.Created At') }}
-              </th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
-                {{ __('messages.Actions') }}
               </th>
             </tr>
           </thead>
@@ -67,7 +64,7 @@
                 <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap space-x-2">
                   @auth
                     <a href="{{ route('tasks.edit', $task) }}"
-                       class="text-green-600 dark:text-green-400 hover:underline">
+                       class="text-blue-600 dark:text-blue-400 hover:underline">
                       {{ __('messages.Edit') }}
                     </a>
 

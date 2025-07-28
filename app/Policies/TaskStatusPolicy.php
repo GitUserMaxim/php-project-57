@@ -29,7 +29,6 @@ class TaskStatusPolicy
 
     public function delete(User $user, TaskStatus $taskStatus): bool
     {
-       return !$taskStatus->tasks()->exists();
-
+       return true;
     }
 }

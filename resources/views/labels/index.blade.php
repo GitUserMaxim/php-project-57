@@ -21,21 +21,19 @@
                 <table class="w-full">
                     <thead class="border-b-2 border-solid border-black text-left text-gray-900 dark:text-white">
                         <tr>
-                            <th class="px-4 py-2">ID</th>
-                            <th class="px-4 py-2">{{ __('messages.Name') }}</th>
-                            <th class="px-4 py-2">{{ __('messages.Description') }}</th>
-                            <th class="px-4 py-2">{{ __('messages.Created At') }}</th>
-                            <th class="px-4 py-2">{{ __('messages.Actions') }}</th>
+                            <th class="px-3 py-1">ID</th>
+                            <th class="px-4 py-1">{{ __('messages.Name') }}</th>
+                            <th class="px-4 py-1">{{ __('messages.Description') }}</th>
+                            <th class="px-4 py-1">{{ __('messages.Created At') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($labels as $label)
                             <tr class="border-b border-dashed text-left text-gray-800 dark:text-white">
-                                <td class="px-4 py-2">{{ $label->id }}</td>
-                                <td class="px-4 py-2">{{ $label->name }}</td>
-                                <td class="px-4 py-2">{{ $label->description }}</td>
-                                <td class="px-4 py-2">{{ $label->created_at->format('d.m.Y') }}</td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-0">{{ $label->id }}</td>
+                                <td class="px-4 py-0">{{ $label->name }}</td>
+                                <td class="px-4 py-0">{{ $label->description }}</td>
+                                <td class="px-4 py-0">{{ $label->created_at->format('d.m.Y') }}</td>
                                     @auth
                                         <form action="{{ route('labels.destroy', $label) }}" method="POST" class="inline-block" onsubmit="return confirm('{{ __('messages.Are you sure?') }}');">
                                             @csrf
