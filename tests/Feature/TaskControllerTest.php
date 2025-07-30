@@ -16,7 +16,6 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->post('/tasks', []);
         $response->assertRedirect('/login');
-        
     }
 
     public function test_user_can_create_task()

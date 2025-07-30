@@ -1,33 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="w-full">
-    <h1 class="text-2xl font-bold mb-4">{{ $task->name }}</h1>
+    <div class="container mx-auto px-4 mt-8">
+        <h1 class="text-3xl mb-4">
+            {{ __('messages.View task') }}: {{ $task->name }}
+        </h1>
 
-    <div class="mb-2">
-      <strong>{{ __('messages.Description') }}:</strong>
-      <p>{{ $task->description }}</p>
-    </div>
+        <div class="mb-4">
+            <p><strong>{{ __('messages.Name') }}:</strong> {{ $task->name }}</p>
+        </div>
 
-    <div class="mb-2">
-      <strong>{{ __('messages.Status') }}:</strong>
-      <p>{{ $task->status->name ?? '-' }}</p>
-    </div>
+        <div class="mb-4">
+            <p><strong>{{ __('messages.Status') }}:</strong> {{ $task->status->name }}</p>
+        </div>
 
-    <div class="mb-2">
-      <strong>{{ __('messages.Created By') }}:</strong>
-      <p>{{ $task->creator->name ?? '-' }}</p>
-    </div>
+        <div class="mb-4">
+            <p><strong>{{ __('messages.Description') }}:</strong> {{ $task->description }}</p>
+        </div>
 
-    <div class="mb-4">
-      <strong>{{ __('messages.Assigned To') }}:</strong>
-      <p>{{ $task->assignee->name ?? '-' }}</p>
+        <div class="mb-4">
+            <p><strong>{{ __('messages.Labels') }}:</strong>
+                {{ $task->labels->pluck('name')->implode(', ') ?: '—' }}
+            </p>
+        </div>
     </div>
-    @auth
-    <a href="{{ route('tasks.index') }}"
-       class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-      {{ __('messages.Back to list') }}
-    </a>
-    @endauth
-  </div>
 @endsection

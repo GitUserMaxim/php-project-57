@@ -39,9 +39,9 @@ class TaskStatusController extends Controller
     {
          $request->validate([
         'name' => 'required|string|max:255|unique:task_statuses,name',
-    ], [
-        'name.unique' => 'Статус с таким именем уже существует',
-    ]);
+         ], [
+         'name.unique' => 'Статус с таким именем уже существует',
+         ]);
         TaskStatus::create($request->only('name'));
 
         flash(__('messages.Status successfully created'))->success();
@@ -71,15 +71,15 @@ class TaskStatusController extends Controller
     public function update(Request $request, TaskStatus $task_status)
     {
         $request->validate([
-    'name' => [
+        'name' => [
         'required',
         'string',
         'max:255',
         Rule::unique('task_statuses', 'name')->ignore($task_status->id),
-    ],
-], [
-    'name.unique' => 'Статус с таким именем уже существует',
-]);
+        ],
+        ], [
+        'name.unique' => 'Статус с таким именем уже существует',
+        ]);
         $task_status->update($request->only('name'));
 
           flash(__('messages.Status successfully updated'))->success();

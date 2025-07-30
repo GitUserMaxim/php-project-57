@@ -34,17 +34,29 @@
       </div>
 
       <div class="mb-4">
-        <label for="assigned_to_id" class="block font-medium mb-1">{{ __('messages.Assigned To') }}</label>
-        <select name="assigned_to_id" id="assigned_to_id" class="w-full border rounded p-2">
-          <option value="">{{ __('messages.None') }}</option>
-          @foreach ($users as $user)
+    <label for="assigned_to_id" class="block font-medium mb-1">{{ __('messages.Assigned To') }}</label>
+    <select name="assigned_to_id" id="assigned_to_id" class="w-full border rounded p-2">
+        <option value="" {{ old('assigned_to_id', $task->assigned_to_id) ? '' : 'selected' }}></option>
+        @foreach ($users as $user)
             <option value="{{ $user->id }}"
-              @selected(old('assigned_to_id', $task->assigned_to_id) == $user->id)>
-              {{ $user->name }}
+                @selected(old('assigned_to_id', $task->assigned_to_id) == $user->id)>
+                {{ $user->name }}
             </option>
-          @endforeach
-        </select>
-      </div>
+        @endforeach
+    </select>
+</div>
+
+      <div class="mb-4">
+  <label for="labels" class="block font-medium mb-1">{{ __('messages.Labels') }}</label>
+  <select name="labels[]" id="labels" class="w-full border rounded p-2" multiple>
+    @foreach ($labels as $label)
+      <option value="{{ $label->id }}"
+        @selected(collect(old('labels', $task->labels->pluck('id')->toArray()))->contains($label->id))>
+        {{ $label->name }}
+      </option>
+    @endforeach
+  </select>
+</div>
 
       <button type="submit"
               class="bg-blue-500 hover:bg-blue-700 font-bold text-white py-2 px-4 rounded">

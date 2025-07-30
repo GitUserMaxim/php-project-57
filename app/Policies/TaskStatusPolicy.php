@@ -29,6 +29,6 @@ class TaskStatusPolicy
 
     public function delete(User $user, TaskStatus $taskStatus): bool
     {
-       return true;
+        return true;
     }
 }

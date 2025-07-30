@@ -25,6 +25,7 @@
                             <th class="px-4 py-1">{{ __('messages.Name') }}</th>
                             <th class="px-4 py-1">{{ __('messages.Description') }}</th>
                             <th class="px-4 py-1">{{ __('messages.Created At') }}</th>
+                            <th class="px-4 py-1">{{ __('messages.Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,7 @@
                                 <td class="px-4 py-0">{{ $label->description }}</td>
                                 <td class="px-4 py-0">{{ $label->created_at->format('d.m.Y') }}</td>
                                     @auth
+                                    <td>
                                         <form action="{{ route('labels.destroy', $label) }}" method="POST" class="inline-block" onsubmit="return confirm('{{ __('messages.Are you sure?') }}');">
                                             @csrf
                                             @method('DELETE')

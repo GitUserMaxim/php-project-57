@@ -11,18 +11,19 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     public function __construct()
-{
-    $this->authorizeResource(Task::class, 'task');
-}
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
 
     public function index()
     {
-        $tasks = Task::with(['status', 'creator', 'assignee'])->get();
+        $tasks = Task::with(['status', 'creator', 'assignee', 'labels'])->get();
         return view('tasks.index', compact('tasks'));
     }
 
     public function show(Task $task)
     {
+        $task->load(['labels', 'creator', 'assignee', 'status']);
         return view('tasks.show', compact('task'));
     }
 
@@ -41,12 +42,18 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',
-        ]);
+            'labels' => 'array',
+            'labels.*' => 'exists:labels,id',
+    ]);
 
         $validated['created_by_id'] = auth()->id();
 
-        Task::create($validated);
+        $task = Task::create($validated);
 
+        if ($request->has('labels')) {
+            $task->labels()->sync($request->input('labels'));
+    }
+        flash(__('messages.The task was successfully created'))->success();
         return redirect()->route('tasks.index')->with('success', 'Task created.');
     }
 
@@ -54,7 +61,8 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::all();
         $users = User::all();
-        return view('tasks.edit', compact('task', 'statuses', 'users'));
+        $labels = Label::all();
+        return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
     public function update(Request $request, Task $task)
@@ -68,15 +76,17 @@ class TaskController extends Controller
 
         $task->update($validated);
 
+        flash(__('messages.The task has been successfully updated'))->success();
         return redirect()->route('tasks.index')->with('success', 'Task updated.');
     }
 
     public function destroy(Task $task)
-{
-    $this->authorize('delete', $task); // ← ВАЖНО
+    {
+        $this->authorize('delete', $task); // ← ВАЖНО
 
-    $task->delete();
-
-    return redirect()->route('tasks.index')->with('success', 'Task deleted.');
-}
+        $task->delete();
+        
+        flash(__('messages.The task was successfully deleted'))->success();
+        return redirect()->route('tasks.index')->with('success', 'Task deleted.');
+    }
 }

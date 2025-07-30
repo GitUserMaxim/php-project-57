@@ -3,13 +3,13 @@ install:
 validate:
 	composer validate
 lint1:
-	composer exec --verbose phpcs -- --standard=PSR12 --colors app routes tests
+	vendor/bin/phpcs app/ routes/ tests/
 beauty:
 	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests
 up:
 	composer update
 test:
-	XDEBUG_MODE=coverage composer exec --verbose phpunit tests --verbose
+	php artisan test
 test-coverage:
 	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
 test-coverage-html:
@@ -22,3 +22,5 @@ test1:
 	php artisan test tests/Feature/TaskStatusControllerTest.php
 test2:
 	php artisan test tests/Feature/TaskControllerTest.php
+test3:
+	php artisan test tests/Feature/LabelTest.php

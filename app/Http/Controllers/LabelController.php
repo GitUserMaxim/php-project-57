@@ -25,7 +25,7 @@ class LabelController extends Controller
             'name' => 'required|string|max:255|unique:labels,name',
             'description' => 'nullable|string',
         ], [
-            'name.unique' => 'Метка с таким именем уже существует',
+            'name.unique' => __('messages.The label with this name already exists'),
         ]);
 
         Label::create($validated);
@@ -40,31 +40,30 @@ class LabelController extends Controller
         return view('labels.edit', compact('label'));
     }
 
-    public function update(Request $request, Label $label)
+    public function update(Request $request, Task $task)
     {
-       $validated = $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('labels', 'name')->ignore($label->id),
-            ],
+        $validated = $request->validate([
+            'name' => 'required|string',
             'description' => 'nullable|string',
-        ], [
-            'name.unique' => 'Метка с таким именем уже существует',
-        ]);
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+            'labels' => 'array',
+            'labels.*' => 'exists:labels,id',
+    ]);
 
-        $label->update($validated);
-        flash(__('messages.Label changed successfully'))->success();
-        return redirect()->route('labels.index');
+        $task->update($validated);
+
+        $task->labels()->sync($request->input('labels', []));
+
+        flash(__('messages.Task updated successfully'))->success();
+        return redirect()->route('tasks.index');
     }
 
     public function destroy(Label $label)
     {
         if ($label->tasks()->exists()) {
-            return redirect()
-                ->route('labels.index')
-                ->with('error', __('messages.Label delete failed'));
+            flash(__('messages.Label delete failed'))->error();
+            return redirect()->route('labels.index');
         }
 
         $label->delete();
