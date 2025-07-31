@@ -13,6 +13,40 @@
         {{ __('messages.Create Task') }}
       </a>
       @endauth
+      <form method="GET" action="{{ route('tasks.index') }}" class="flex gap-4 mb-4">
+    <select name="filter[status_id]">
+        <option value="">Статус</option>
+        @foreach($statuses as $status)
+            <option value="{{ $status->id }}" @selected(request('filter.status_id') == $status->id)>
+                {{ $status->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="filter[created_by_id]">
+        <option value="">Автор</option>
+        @foreach($users as $user)
+            <option value="{{ $user->id }}" @selected(request('filter.created_by_id') == $user->id)>
+                {{ $user->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="filter[assigned_to_id]">
+        <option value="">Исполнитель</option>
+        @foreach($users as $user)
+            <option value="{{ $user->id }}" @selected(request('filter.assigned_to_id') == $user->id)>
+                {{ $user->name }}
+            </option>
+        @endforeach
+    </select>
+
+   <button type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+    {{ __('messages.Apply') }}
+</button>
+
+</form>
       <div class="overflow-x-auto mt-4">
                 <table class="w-full">
                     <thead class="border-b-2 border-solid border-black text-left text-gray-900 dark:text-white">

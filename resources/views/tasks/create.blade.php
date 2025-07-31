@@ -8,10 +8,12 @@
       @csrf
 
       <div class="mb-4">
-        <label for="name" class="block font-medium mb-1">{{ __('messages.Name') }}</label>
-        <input type="text" name="name" id="name"
-               class="w-full border rounded p-2"
-               value="{{ old('name') }}" required>
+    <label for="name" class="block text-gray-700">{{ __('messages.Name') }}</label>
+    <input id="name" name="name" type="text" value="{{ old('name') }}"
+           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+    @error('name')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
       </div>
 
       <div class="mb-4">
