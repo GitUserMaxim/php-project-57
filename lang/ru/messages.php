@@ -98,4 +98,7 @@ return [
     'Are you sure?' => 'Вы уверены?',
     'The label with this name already exists' => 'Метка с таким именем уже существует',
     'Label delete failed' => 'Не удалось удалить метку',
+    'Edit status' => 'Изменение статуса',
+    'The label was updated successfully' => 'Метка успешно изменена',
+    'Edit Label' => 'Изменение метки',
  ];

@@ -85,16 +85,16 @@ class TaskController extends Controller
             'name' => [
                 'required',
                 'string',
-                Rule::unique('tasks', 'name')->ignore($task->id),
+                Rule::unique('tasks', 'name'),
             ],
-        'description' => 'nullable|string',
-        'status_id' => 'required|exists:task_statuses,id',
-        'assigned_to_id' => 'nullable|exists:users,id',
-        'labels' => 'array',
-        'labels.*' => 'exists:labels,id',
-    ], [
+            'description' => 'nullable|string',
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+            'labels' => 'array',
+            'labels.*' => 'exists:labels,id',
+        ], [
         'name.unique' => 'Задача с таким именем уже существует',
-    ]);
+        ]);
 
         $task->update($validated);
         $task->labels()->sync($request->input('labels', []));
@@ -109,7 +109,7 @@ class TaskController extends Controller
         $this->authorize('delete', $task);
 
         $task->delete();
-        
+
         flash(__('messages.The task was successfully deleted'))->success();
         return redirect()->route('tasks.index')->with('success', 'Task deleted.');
     }

@@ -13,7 +13,7 @@ class LabelTest extends TestCase
 {
     use RefreshDatabase;
 
-     protected function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -85,7 +85,7 @@ class LabelTest extends TestCase
         $response = $this->delete(route('labels.destroy', $label));
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('error', __('messages.Label delete failed'));
+        $response->assertSessionHas('flash_notification.0.message', __('messages.Label delete failed'));
         $this->assertDatabaseHas('labels', ['id' => $label->id]);
     }
 }

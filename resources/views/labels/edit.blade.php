@@ -1,31 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="w-full flex justify-center">
-    <div class="w-full max-w-md mx-auto">
-      <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">{{ __('messages.Edit Label') }}</h1>
-      <form method="POST" action="{{ route('labels.update', $label) }}">
-        @csrf
-        @method('PATCH')
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+        <div class="grid col-span-full">
+            <h1 class="mb-5 text-3xl font-bold text-gray-800 dark:text-white">
+                {{ __('messages.Edit Label') }}
+            </h1>
 
-        <div class="mb-4">
-          <label for="name" class="block text-gray-700 dark:text-gray-200 font-bold mb-2">{{ __('messages.Name') }}</label>
-          <input type="text" id="name" name="name" class="w-full p-2 border rounded"
-                 value="{{ old('name', $label->name) }}" required>
-        </div>
-        @error('name')
-    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-@enderror
-        <div class="mb-4">
-          <label for="description" class="block text-gray-700 dark:text-gray-200 font-bold mb-2">{{ __('messages.Description') }}</label>
-          <textarea id="description" name="description" class="w-full p-2 border rounded">{{ old('description', $label->description) }}</textarea>
-        </div>
+            <form class="w-50" method="POST" action="{{ route('labels.update', $label) }}">
+                @csrf
+                @method('PATCH')
 
-        <button type="submit"
-                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          {{ __('messages.Update label') }}
-        </button>
-      </form>
+                <div class="flex flex-col">
+                    {{-- Name Field --}}
+                    <div>
+                        <label for="name" class="text-gray-700 dark:text-gray-300">{{ __('messages.Name') }}</label>
+                    </div>
+                    <div class="mt-2">
+                        <input
+                            class="rounded border-gray-300 w-1/3 @error('name') border-red-500 @enderror"
+                            type="text"
+                            name="name"
+                            id="name"
+                            value="{{ old('name', $label->name) }}"
+                            required
+                        >
+                        @error('name')
+                            <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Description Field --}}
+                    <div class="mt-4">
+                        <label for="description" class="text-gray-700 dark:text-gray-300">{{ __('messages.Description') }}</label>
+                    </div>
+                    <div class="mt-2">
+                        <textarea
+                            class="rounded border-gray-300 w-1/3"
+                            id="description"
+                            name="description"
+                            rows="4"
+                        >{{ old('description', $label->description) }}</textarea>
+                    </div>
+
+                    {{-- Submit Button --}}
+                    <div class="mt-4">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            type="submit">
+                            {{ __('messages.Update label') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
+</section>
 @endsection

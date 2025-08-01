@@ -75,7 +75,7 @@ class TaskStatusController extends Controller
         'required',
         'string',
         'max:255',
-        Rule::unique('task_statuses', 'name')->ignore($task_status->id),
+        Rule::unique('task_statuses', 'name'),
         ],
         ], [
         'name.unique' => 'Статус с таким именем уже существует',

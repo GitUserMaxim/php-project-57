@@ -40,23 +40,24 @@ class LabelController extends Controller
         return view('labels.edit', compact('label'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Label $label)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('labels', 'name'),
+            ],
             'description' => 'nullable|string',
-            'status_id' => 'required|exists:task_statuses,id',
-            'assigned_to_id' => 'nullable|exists:users,id',
-            'labels' => 'array',
-            'labels.*' => 'exists:labels,id',
-    ]);
+        ], [
+            'name.unique' => __('messages.The label with this name already exists'),
+        ]);
 
-        $task->update($validated);
+        $label->update($validated);
 
-        $task->labels()->sync($request->input('labels', []));
-
-        flash(__('messages.Task updated successfully'))->success();
-        return redirect()->route('tasks.index');
+        flash(__('messages.The label was updated successfully'))->success();
+        return redirect()->route('labels.index');
     }
 
     public function destroy(Label $label)

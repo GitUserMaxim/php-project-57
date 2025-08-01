@@ -108,5 +108,4 @@ class TaskStatusControllerTest extends TestCase
         $response->assertRedirect(route('login'));
         $this->assertDatabaseHas('task_statuses', ['id' => $status->id]);
     }
-
 }
