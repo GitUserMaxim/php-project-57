@@ -76,7 +76,7 @@ return [
     'A task with this name already exists' => 'Задача с таким именем уже существует',
     'Date creation' => 'Дата создания',
     'Actions' => 'Действия',
-    'Update label' => 'Изменить',
+    'Update label' => 'Обновить',
     'Created By' => 'Автор',
     'Assigned To' => 'Исполнитель',
     'Created At' => 'Дата создания',
