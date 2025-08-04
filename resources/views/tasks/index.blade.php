@@ -96,7 +96,7 @@
                   {{ $task->assignee->name ?? '-' }}
                 </td>
                 <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap">
-                  {{ $task->created_at->format('Y-m-d H:i') }}
+                  {{ $task->created_at->format('d.m.Y') }}
                 </td>
                 <td class="px-4 py-3 text-gray-800 dark:text-gray-200 whitespace-nowrap space-x-2">
                   @auth

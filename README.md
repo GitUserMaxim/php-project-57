@@ -10,14 +10,17 @@ Task Manager – a task management system similar to Redmine. It allows users to
 - Composer 2.8.5
 - PHP 8.3
 - Laravel 12
-- PostgreSQL 12
+- PostgreSQL 12 or SQLite
 
 
 ## Installation
 ``` 
 $ git clone git@github.com:GitUserMaxim/php-project-57.git
-$ make insatall
-
+$ make install
+$ cp .env.example .env
+$ touch database/database.sqlite
+$ php artisan key:generate
+$ php artisan migrate
 
 ```
 

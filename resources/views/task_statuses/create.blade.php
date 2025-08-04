@@ -11,7 +11,6 @@
             <form class="w-50" method="POST" action="{{ route('task_statuses.store') }}">
                 @csrf
                 <div class="flex flex-col">
-                    {{-- Name --}}
                     <div>
                         <label for="name" class="text-gray-700 dark:text-gray-300">{{ __('messages.Name') }}</label>
                     </div>
@@ -22,7 +21,6 @@
                             name="name"
                             id="name"
                             value="{{ old('name') }}"
-                            required
                         >
                         @error('name')
                             <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
