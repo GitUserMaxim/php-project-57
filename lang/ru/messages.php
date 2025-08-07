@@ -102,3 +102,5 @@ return [
     'The label was updated successfully' => 'Метка успешно изменена',
     'Edit Label' => 'Изменение метки',
  ];
+
+ 

@@ -11,26 +11,26 @@ class TaskStatusRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_can_view_task_status_index()
+    public function testGuestCanViewTaskStatusIndex()
     {
         $response = $this->get(route('task_statuses.index'));
         $response->assertOk();
     }
 
-    public function test_guest_cannot_view_create_task_status_page()
+    public function testGuestCannotViewCreateTaskStatusPage()
     {
         $response = $this->get(route('task_statuses.create'));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_auth_user_can_view_create_task_status_page()
+    public function testAuthUserCanViewCreateTaskStatusPage()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('task_statuses.create'));
         $response->assertOk();
     }
 
-    public function test_guest_cannot_store_task_status()
+    public function testGuestCannotStoreTaskStatus()
     {
         $response = $this->post(route('task_statuses.store'), [
             'name' => 'In progress',
@@ -39,7 +39,7 @@ class TaskStatusRoutesTest extends TestCase
         $this->assertDatabaseMissing('task_statuses', ['name' => 'In progress']);
     }
 
-    public function test_auth_user_can_store_task_status()
+    public function testAuthUserCanStoreTaskStatus()
     {
         $user = User::factory()->create();
 
@@ -51,7 +51,7 @@ class TaskStatusRoutesTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['name' => 'In progress']);
     }
 
-    public function test_guest_cannot_view_edit_task_status_page()
+    public function testGuestCannotViewEditTaskStatusPage()
     {
         $status = TaskStatus::factory()->create();
 
@@ -59,7 +59,7 @@ class TaskStatusRoutesTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_auth_user_can_view_edit_task_status_page()
+    public function testAuthUserCanViewEditTaskStatusPage()
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();
@@ -68,7 +68,7 @@ class TaskStatusRoutesTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_guest_cannot_update_task_status()
+    public function testGuestCannotUpdateTaskStatus()
     {
         $status = TaskStatus::factory()->create();
 
@@ -80,7 +80,7 @@ class TaskStatusRoutesTest extends TestCase
         $this->assertDatabaseMissing('task_statuses', ['name' => 'Updated name']);
     }
 
-    public function test_auth_user_can_update_task_status()
+    public function testAuthUserCanUpdateTaskStatus()
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create(['name' => 'Old name']);
@@ -93,7 +93,7 @@ class TaskStatusRoutesTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['name' => 'Updated name']);
     }
 
-    public function test_guest_cannot_delete_task_status()
+    public function testGuestCannotDeleteTaskStatus()
     {
         $status = TaskStatus::factory()->create();
 
@@ -102,7 +102,7 @@ class TaskStatusRoutesTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['id' => $status->id]);
     }
 
-    public function test_auth_user_can_delete_unused_task_status()
+    public function testAuthUserCanDeleteUnusedTaskStatus()
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();

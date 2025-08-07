@@ -13,34 +13,32 @@ class TasksRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_tasks_index_is_accessible_to_guests(): void
+    public function testTasksIndexIsAccessibleToGuests(): void
     {
         $response = $this->get(route('tasks.index'));
         $response->assertOk();
     }
 
-    public function test_tasks_create_requires_authentication(): void
+    public function testTasksCreateRequiresAuthentication(): void
     {
         $response = $this->get(route('tasks.create'));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_tasks_create_is_accessible_to_authenticated_users(): void
+    public function testTasksCreateIsAccessibleToAuthenticatedUsers(): void
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('tasks.create'));
         $response->assertOk();
     }
 
-
-    public function test_tasks_store_requires_authentication(): void
+    public function testTasksStoreRequiresAuthentication(): void
     {
         $response = $this->post(route('tasks.store'), []);
         $response->assertRedirect(route('login'));
     }
 
-
-    public function test_tasks_store_creates_task(): void
+    public function testTasksStoreCreatesTask(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();
@@ -65,21 +63,21 @@ class TasksRoutesTest extends TestCase
         ]);
     }
 
-    public function test_tasks_show_is_accessible_to_guests(): void
+    public function testTasksShowIsAccessibleToGuests(): void
     {
         $task = Task::factory()->create();
         $response = $this->get(route('tasks.show', $task));
         $response->assertOk();
     }
 
-    public function test_tasks_edit_requires_authentication(): void
+    public function testTasksEditRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
         $response = $this->get(route('tasks.edit', $task));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_tasks_edit_is_accessible_to_authenticated_users(): void
+    public function testTasksEditIsAccessibleToAuthenticatedUsers(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -88,14 +86,14 @@ class TasksRoutesTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_tasks_update_requires_authentication(): void
+    public function testTasksUpdateRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
         $response = $this->patch(route('tasks.update', $task), ['name' => 'Updated']);
         $response->assertRedirect(route('login'));
     }
 
-    public function test_tasks_update_updates_task(): void
+    public function testTasksUpdateUpdatesTask(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();
@@ -120,15 +118,14 @@ class TasksRoutesTest extends TestCase
         $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
     }
 
-    public function test_tasks_destroy_requires_authentication(): void
+    public function testTasksDestroyRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
         $response = $this->delete(route('tasks.destroy', $task));
         $response->assertRedirect(route('login'));
     }
 
-
-    public function test_tasks_destroy_deletes_task_if_authorized(): void
+    public function testTasksDestroyDeletesTaskIfAuthorized(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create(['created_by_id' => $user->id]);
@@ -139,7 +136,7 @@ class TasksRoutesTest extends TestCase
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 
-    public function test_tasks_destroy_forbidden_for_non_author(): void
+    public function testTasksDestroyForbiddenForNonAuthor(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();

@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
@@ -15,20 +14,18 @@ class TaskStatusControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->seed(\Database\Seeders\TaskStatusSeeder::class);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function guest_cannot_access_create_page()
+    public function guestCannotAccessCreatePage(): void
     {
         $response = $this->get(route('task_statuses.create'));
-
         $response->assertRedirect(route('login'));
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function guest_cannot_store_status()
+    public function guestCannotStoreStatus(): void
     {
         $response = $this->post(route('task_statuses.store'), [
             'name' => 'New Status',
@@ -39,10 +36,9 @@ class TaskStatusControllerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function authenticated_user_can_create_status()
+    public function authenticatedUserCanCreateStatus(): void
     {
         $user = User::factory()->create();
-
         $this->actingAs($user);
 
         $response = $this->post(route('task_statuses.store'), [
@@ -54,11 +50,10 @@ class TaskStatusControllerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function authenticated_user_can_edit_status()
+    public function authenticatedUserCanEditStatus(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create(['name' => 'Old Status']);
-
         $this->actingAs($user);
 
         $response = $this->get(route('task_statuses.edit', $status));
@@ -69,11 +64,10 @@ class TaskStatusControllerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function authenticated_user_can_update_status()
+    public function authenticatedUserCanUpdateStatus(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create(['name' => 'Old Status']);
-
         $this->actingAs($user);
 
         $response = $this->patch(route('task_statuses.update', $status), [
@@ -85,11 +79,10 @@ class TaskStatusControllerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function authenticated_user_can_delete_status()
+    public function authenticatedUserCanDeleteStatus(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();
-
         $this->actingAs($user);
 
         $response = $this->delete(route('task_statuses.destroy', $status));
@@ -99,7 +92,7 @@ class TaskStatusControllerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function guest_cannot_delete_status()
+    public function guestCannotDeleteStatus(): void
     {
         $status = TaskStatus::factory()->create();
 

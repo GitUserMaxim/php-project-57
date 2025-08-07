@@ -20,3 +20,4 @@ class TaskStatusSeeder extends Seeder
         }
     }
 }
+

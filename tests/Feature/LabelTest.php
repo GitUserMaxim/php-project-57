@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Label;
@@ -19,7 +18,7 @@ class LabelTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    public function test_guest_cannot_access_protected_label_routes()
+    public function testGuestCannotAccessProtectedLabelRoutes(): void
     {
         $label = Label::factory()->create();
 
@@ -30,7 +29,7 @@ class LabelTest extends TestCase
         $this->delete(route('labels.destroy', $label))->assertRedirect(route('login'));
     }
 
-    public function test_user_can_create_label()
+    public function testUserCanCreateLabel(): void
     {
         $this->actingAs($this->user);
 
@@ -45,7 +44,7 @@ class LabelTest extends TestCase
         $this->assertDatabaseHas('labels', $data);
     }
 
-    public function test_user_can_update_label()
+    public function testUserCanUpdateLabel(): void
     {
         $this->actingAs($this->user);
 
@@ -62,7 +61,7 @@ class LabelTest extends TestCase
         $this->assertDatabaseHas('labels', $updated);
     }
 
-    public function test_user_can_delete_unused_label()
+    public function testUserCanDeleteUnusedLabel(): void
     {
         $this->actingAs($this->user);
 
@@ -74,7 +73,7 @@ class LabelTest extends TestCase
         $this->assertDatabaseMissing('labels', ['id' => $label->id]);
     }
 
-    public function test_user_cannot_delete_label_attached_to_task()
+    public function testUserCannotDeleteLabelAttachedToTask(): void
     {
         $this->actingAs($this->user);
 

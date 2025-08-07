@@ -12,13 +12,13 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_cannot_create_task()
+    public function testGuestCannotCreateTask(): void
     {
         $response = $this->post('/tasks', []);
         $response->assertRedirect('/login');
     }
 
-    public function test_user_can_create_task()
+    public function testUserCanCreateTask(): void
     {
         $user = User::factory()->create();
         $status = TaskStatus::factory()->create();
@@ -27,12 +27,13 @@ class TaskControllerTest extends TestCase
             ->post('/tasks', [
                 'name' => 'New Task',
                 'status_id' => $status->id,
-            ])->assertRedirect('/tasks');
+            ])
+            ->assertRedirect('/tasks');
 
         $this->assertDatabaseHas('tasks', ['name' => 'New Task']);
     }
 
-    public function test_only_creator_can_delete_task()
+    public function testOnlyCreatorCanDeleteTask(): void
     {
         $user = User::factory()->create();
         $other = User::factory()->create();

@@ -12,26 +12,26 @@ class LabelsRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_labels_index_is_accessible_to_guests(): void
+    public function testLabelsIndexIsAccessibleToGuests(): void
     {
         $response = $this->get(route('labels.index'));
         $response->assertOk();
     }
 
-    public function test_labels_create_requires_authentication(): void
+    public function testLabelsCreateRequiresAuthentication(): void
     {
         $response = $this->get(route('labels.create'));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_labels_create_is_accessible_to_authenticated_users(): void
+    public function testLabelsCreateIsAccessibleToAuthenticatedUsers(): void
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('labels.create'));
         $response->assertOk();
     }
 
-    public function test_labels_store_requires_authentication(): void
+    public function testLabelsStoreRequiresAuthentication(): void
     {
         $response = $this->post(route('labels.store'), [
             'name' => 'Bug',
@@ -39,7 +39,7 @@ class LabelsRoutesTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_labels_store_creates_new_label(): void
+    public function testLabelsStoreCreatesNewLabel(): void
     {
         $user = User::factory()->create();
         $data = ['name' => 'Bug', 'description' => 'Fix it'];
@@ -50,14 +50,14 @@ class LabelsRoutesTest extends TestCase
         $this->assertDatabaseHas('labels', $data);
     }
 
-    public function test_labels_edit_requires_authentication(): void
+    public function testLabelsEditRequiresAuthentication(): void
     {
         $label = Label::factory()->create();
         $response = $this->get(route('labels.edit', $label));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_labels_edit_is_accessible_to_authenticated_users(): void
+    public function testLabelsEditIsAccessibleToAuthenticatedUsers(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create();
@@ -66,14 +66,14 @@ class LabelsRoutesTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_labels_update_requires_authentication(): void
+    public function testLabelsUpdateRequiresAuthentication(): void
     {
         $label = Label::factory()->create();
         $response = $this->patch(route('labels.update', $label), ['name' => 'Updated']);
         $response->assertRedirect(route('login'));
     }
 
-    public function test_labels_update_updates_label(): void
+    public function testLabelsUpdateUpdatesLabel(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create(['name' => 'Original']);
@@ -86,14 +86,14 @@ class LabelsRoutesTest extends TestCase
         $this->assertDatabaseHas('labels', ['id' => $label->id, 'name' => 'Updated']);
     }
 
-    public function test_labels_destroy_requires_authentication(): void
+    public function testLabelsDestroyRequiresAuthentication(): void
     {
         $label = Label::factory()->create();
         $response = $this->delete(route('labels.destroy', $label));
         $response->assertRedirect(route('login'));
     }
 
-    public function test_labels_destroy_deletes_label(): void
+    public function testLabelsDestroyDeletesLabel(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create();
@@ -104,7 +104,7 @@ class LabelsRoutesTest extends TestCase
         $this->assertDatabaseMissing('labels', ['id' => $label->id]);
     }
 
-    public function test_labels_destroy_fails_if_label_attached_to_task(): void
+    public function testLabelsDestroyFailsIfLabelAttachedToTask(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create();
