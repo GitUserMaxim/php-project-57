@@ -21,11 +21,13 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters([
+            ->allowedFilters(
+                [
                 AllowedFilter::exact('status_id'),
                 AllowedFilter::exact('created_by_id'),
                 AllowedFilter::exact('assigned_to_id'),
-            ])
+                ]
+            )
             ->with(['status', 'creator', 'assignee'])
             ->paginate(15)
             ->appends($request->query());
@@ -52,16 +54,18 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = $request->validate(
+            [
             'name' => 'required|string|unique:tasks,name',
             'description' => 'nullable|string',
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',
             'labels' => 'array',
             'labels.*' => 'exists:labels,id',
-        ], [
+            ], [
             'name.unique' => 'Задача с таким именем уже существует',
-        ]);
+            ]
+        );
 
         $validated['created_by_id'] = auth()->id();
 
@@ -81,7 +85,8 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
-        $validated = $request->validate([
+        $validated = $request->validate(
+            [
             'name' => [
                 'required',
                 'string',
@@ -92,9 +97,10 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable|exists:users,id',
             'labels' => 'array',
             'labels.*' => 'exists:labels,id',
-        ], [
-        'name.unique' => 'Задача с таким именем уже существует',
-        ]);
+            ], [
+            'name.unique' => 'Задача с таким именем уже существует',
+            ]
+        );
 
         $task->update($validated);
         $task->labels()->sync($request->input('labels', []));

@@ -55,12 +55,14 @@ class TasksRoutesTest extends TestCase
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
 
         $response->assertRedirect(route('tasks.index'));
-        $this->assertDatabaseHas('tasks', [
+        $this->assertDatabaseHas(
+            'tasks', [
             'name' => 'New Task',
             'description' => 'Test description',
             'status_id' => $status->id,
             'created_by_id' => $user->id,
-        ]);
+            ]
+        );
     }
 
     public function testTasksShowIsAccessibleToGuests(): void
@@ -99,10 +101,12 @@ class TasksRoutesTest extends TestCase
         $status = TaskStatus::factory()->create();
         $label = Label::factory()->create();
 
-        $task = Task::factory()->create([
+        $task = Task::factory()->create(
+            [
             'name' => 'Old Task',
             'status_id' => $status->id,
-        ]);
+            ]
+        );
 
         $newData = [
             'name' => 'Updated Task',

@@ -23,10 +23,12 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->patch('/profile', [
+        $response = $this->actingAs($user)->patch(
+            '/profile', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+            ]
+        );
 
         $response->assertSessionHasNoErrors()->assertRedirect('/profile');
 
@@ -41,10 +43,12 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->patch('/profile', [
+        $response = $this->actingAs($user)->patch(
+            '/profile', [
             'name' => 'Test User',
             'email' => $user->email,
-        ]);
+            ]
+        );
 
         $response->assertSessionHasNoErrors()->assertRedirect('/profile');
 
@@ -55,9 +59,11 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->delete('/profile', [
+        $response = $this->actingAs($user)->delete(
+            '/profile', [
             'password' => 'password',
-        ]);
+            ]
+        );
 
         $response->assertSessionHasNoErrors()->assertRedirect('/');
 
@@ -69,9 +75,11 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->from('/profile')->delete('/profile', [
+        $response = $this->actingAs($user)->from('/profile')->delete(
+            '/profile', [
             'password' => 'wrong-password',
-        ]);
+            ]
+        );
 
         $response->assertSessionHasErrorsIn('userDeletion', 'password')->assertRedirect('/profile');
 

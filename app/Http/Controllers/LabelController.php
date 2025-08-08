@@ -21,12 +21,14 @@ class LabelController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = $request->validate(
+            [
             'name' => 'required|string|max:255|unique:labels,name',
             'description' => 'nullable|string',
-        ], [
+            ], [
             'name.unique' => __('messages.The label with this name already exists'),
-        ]);
+            ]
+        );
 
         Label::create($validated);
 
@@ -42,7 +44,8 @@ class LabelController extends Controller
 
     public function update(Request $request, Label $label)
     {
-        $validated = $request->validate([
+        $validated = $request->validate(
+            [
             'name' => [
                 'required',
                 'string',
@@ -50,9 +53,10 @@ class LabelController extends Controller
                 Rule::unique('labels', 'name'),
             ],
             'description' => 'nullable|string',
-        ], [
+            ], [
             'name.unique' => __('messages.The label with this name already exists'),
-        ]);
+            ]
+        );
 
         $label->update($validated);
 

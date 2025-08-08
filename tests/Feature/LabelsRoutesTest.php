@@ -33,9 +33,11 @@ class LabelsRoutesTest extends TestCase
 
     public function testLabelsStoreRequiresAuthentication(): void
     {
-        $response = $this->post(route('labels.store'), [
+        $response = $this->post(
+            route('labels.store'), [
             'name' => 'Bug',
-        ]);
+            ]
+        );
         $response->assertRedirect(route('login'));
     }
 
@@ -78,9 +80,11 @@ class LabelsRoutesTest extends TestCase
         $user = User::factory()->create();
         $label = Label::factory()->create(['name' => 'Original']);
 
-        $response = $this->actingAs($user)->patch(route('labels.update', $label), [
+        $response = $this->actingAs($user)->patch(
+            route('labels.update', $label), [
             'name' => 'Updated',
-        ]);
+            ]
+        );
 
         $response->assertRedirect(route('labels.index'));
         $this->assertDatabaseHas('labels', ['id' => $label->id, 'name' => 'Updated']);

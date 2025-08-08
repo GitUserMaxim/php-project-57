@@ -3,9 +3,9 @@ install:
 validate:
 	composer validate
 lint:
-	vendor/bin/phpcs app/ routes/ tests/
-beauty:
-	composer exec --verbose phpcbf -- --standard=PSR12 app routes tests
+	vendor/bin/phpcs app/ routes/ tests/ resources/
+fix:
+	vendor/bin/phpcbf app/ routes/ resources/ tests/ bootstrap/ database/ lang/
 up:
 	composer update
 test-coverage:

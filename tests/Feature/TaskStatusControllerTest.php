@@ -27,9 +27,11 @@ class TaskStatusControllerTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function guestCannotStoreStatus(): void
     {
-        $response = $this->post(route('task_statuses.store'), [
+        $response = $this->post(
+            route('task_statuses.store'), [
             'name' => 'New Status',
-        ]);
+            ]
+        );
 
         $response->assertRedirect(route('login'));
         $this->assertDatabaseMissing('task_statuses', ['name' => 'New Status']);
@@ -41,9 +43,11 @@ class TaskStatusControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->post(route('task_statuses.store'), [
+        $response = $this->post(
+            route('task_statuses.store'), [
             'name' => 'New Status',
-        ]);
+            ]
+        );
 
         $response->assertRedirect(route('task_statuses.index'));
         $this->assertDatabaseHas('task_statuses', ['name' => 'New Status']);
@@ -70,9 +74,11 @@ class TaskStatusControllerTest extends TestCase
         $status = TaskStatus::factory()->create(['name' => 'Old Status']);
         $this->actingAs($user);
 
-        $response = $this->patch(route('task_statuses.update', $status), [
+        $response = $this->patch(
+            route('task_statuses.update', $status), [
             'name' => 'Updated Status',
-        ]);
+            ]
+        );
 
         $response->assertRedirect(route('task_statuses.index'));
         $this->assertDatabaseHas('task_statuses', ['name' => 'Updated Status']);

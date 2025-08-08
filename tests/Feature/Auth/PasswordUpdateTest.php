@@ -18,11 +18,13 @@ class PasswordUpdateTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->from('/profile')
-            ->put('/password', [
+            ->put(
+                '/password', [
                 'current_password' => 'password',
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
-            ]);
+                ]
+            );
 
         $response
             ->assertSessionHasNoErrors()
@@ -38,11 +40,13 @@ class PasswordUpdateTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->from('/profile')
-            ->put('/password', [
+            ->put(
+                '/password', [
                 'current_password' => 'wrong-password',
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
-            ]);
+                ]
+            );
 
         $response
             ->assertSessionHasErrorsIn('updatePassword', 'current_password')

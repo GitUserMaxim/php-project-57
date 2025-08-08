@@ -24,10 +24,12 @@ class TaskControllerTest extends TestCase
         $status = TaskStatus::factory()->create();
 
         $this->actingAs($user)
-            ->post('/tasks', [
+            ->post(
+                '/tasks', [
                 'name' => 'New Task',
                 'status_id' => $status->id,
-            ])
+                ]
+            )
             ->assertRedirect('/tasks');
 
         $this->assertDatabaseHas('tasks', ['name' => 'New Task']);
