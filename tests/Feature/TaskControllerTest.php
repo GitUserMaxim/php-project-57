@@ -25,9 +25,10 @@ class TaskControllerTest extends TestCase
 
         $this->actingAs($user)
             ->post(
-                '/tasks', [
-                'name' => 'New Task',
-                'status_id' => $status->id,
+                '/tasks',
+                [
+                    'name' => 'New Task',
+                    'status_id' => $status->id,
                 ]
             )
             ->assertRedirect('/tasks');

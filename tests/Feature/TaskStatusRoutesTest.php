@@ -33,8 +33,9 @@ class TaskStatusRoutesTest extends TestCase
     public function testGuestCannotStoreTaskStatus()
     {
         $response = $this->post(
-            route('task_statuses.store'), [
-            'name' => 'In progress',
+            route('task_statuses.store'),
+            [
+                'name' => 'In progress',
             ]
         );
         $response->assertRedirect(route('login'));
@@ -46,8 +47,9 @@ class TaskStatusRoutesTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post(
-            route('task_statuses.store'), [
-            'name' => 'In progress',
+            route('task_statuses.store'),
+            [
+                'name' => 'In progress',
             ]
         );
 
@@ -77,8 +79,9 @@ class TaskStatusRoutesTest extends TestCase
         $status = TaskStatus::factory()->create();
 
         $response = $this->patch(
-            route('task_statuses.update', $status), [
-            'name' => 'Updated name',
+            route('task_statuses.update', $status),
+            [
+                'name' => 'Updated name',
             ]
         );
 
@@ -92,8 +95,9 @@ class TaskStatusRoutesTest extends TestCase
         $status = TaskStatus::factory()->create(['name' => 'Old name']);
 
         $response = $this->actingAs($user)->patch(
-            route('task_statuses.update', $status), [
-            'name' => 'Updated name',
+            route('task_statuses.update', $status),
+            [
+                'name' => 'Updated name',
             ]
         );
 

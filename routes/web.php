@@ -7,7 +7,8 @@ use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\ProfileController;
 
 Route::get(
-    '/', function () {
+    '/',
+    function () {
         return view('welcome');
     }
 )->name('welcome');
@@ -15,7 +16,6 @@ Route::get(
 Route::resource('task_statuses', TaskStatusController::class)->only(['index']);
 Route::resource('tasks', TaskController::class);
 Route::resource('labels', LabelController::class)->only(['index']);
-
 
 Route::middleware(['auth'])->group(
     function () {

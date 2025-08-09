@@ -28,8 +28,9 @@ class TaskStatusControllerTest extends TestCase
     public function guestCannotStoreStatus(): void
     {
         $response = $this->post(
-            route('task_statuses.store'), [
-            'name' => 'New Status',
+            route('task_statuses.store'),
+            [
+                'name' => 'New Status',
             ]
         );
 
@@ -44,8 +45,9 @@ class TaskStatusControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->post(
-            route('task_statuses.store'), [
-            'name' => 'New Status',
+            route('task_statuses.store'),
+            [
+                'name' => 'New Status',
             ]
         );
 
@@ -75,8 +77,9 @@ class TaskStatusControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->patch(
-            route('task_statuses.update', $status), [
-            'name' => 'Updated Status',
+            route('task_statuses.update', $status),
+            [
+                'name' => 'Updated Status',
             ]
         );
 

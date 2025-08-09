@@ -16,25 +16,30 @@ class TasksRoutesTest extends TestCase
     public function testTasksIndexIsAccessibleToGuests(): void
     {
         $response = $this->get(route('tasks.index'));
+
         $response->assertOk();
     }
 
     public function testTasksCreateRequiresAuthentication(): void
     {
         $response = $this->get(route('tasks.create'));
+
         $response->assertRedirect(route('login'));
     }
 
     public function testTasksCreateIsAccessibleToAuthenticatedUsers(): void
     {
         $user = User::factory()->create();
+
         $response = $this->actingAs($user)->get(route('tasks.create'));
+
         $response->assertOk();
     }
 
     public function testTasksStoreRequiresAuthentication(): void
     {
         $response = $this->post(route('tasks.store'), []);
+
         $response->assertRedirect(route('login'));
     }
 
@@ -55,12 +60,14 @@ class TasksRoutesTest extends TestCase
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
 
         $response->assertRedirect(route('tasks.index'));
+
         $this->assertDatabaseHas(
-            'tasks', [
-            'name' => 'New Task',
-            'description' => 'Test description',
-            'status_id' => $status->id,
-            'created_by_id' => $user->id,
+            'tasks',
+            [
+                'name' => 'New Task',
+                'description' => 'Test description',
+                'status_id' => $status->id,
+                'created_by_id' => $user->id,
             ]
         );
     }
@@ -68,14 +75,18 @@ class TasksRoutesTest extends TestCase
     public function testTasksShowIsAccessibleToGuests(): void
     {
         $task = Task::factory()->create();
+
         $response = $this->get(route('tasks.show', $task));
+
         $response->assertOk();
     }
 
     public function testTasksEditRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
+
         $response = $this->get(route('tasks.edit', $task));
+
         $response->assertRedirect(route('login'));
     }
 
@@ -85,13 +96,19 @@ class TasksRoutesTest extends TestCase
         $task = Task::factory()->create();
 
         $response = $this->actingAs($user)->get(route('tasks.edit', $task));
+
         $response->assertOk();
     }
 
     public function testTasksUpdateRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
-        $response = $this->patch(route('tasks.update', $task), ['name' => 'Updated']);
+
+        $response = $this->patch(
+            route('tasks.update', $task),
+            ['name' => 'Updated']
+        );
+
         $response->assertRedirect(route('login'));
     }
 
@@ -103,8 +120,8 @@ class TasksRoutesTest extends TestCase
 
         $task = Task::factory()->create(
             [
-            'name' => 'Old Task',
-            'status_id' => $status->id,
+                'name' => 'Old Task',
+                'status_id' => $status->id,
             ]
         );
 
@@ -119,13 +136,22 @@ class TasksRoutesTest extends TestCase
         $response = $this->actingAs($user)->patch(route('tasks.update', $task), $newData);
 
         $response->assertRedirect(route('tasks.index'));
-        $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
+
+        $this->assertDatabaseHas(
+            'tasks',
+            [
+                'id' => $task->id,
+                'name' => 'Updated Task',
+            ]
+        );
     }
 
     public function testTasksDestroyRequiresAuthentication(): void
     {
         $task = Task::factory()->create();
+
         $response = $this->delete(route('tasks.destroy', $task));
+
         $response->assertRedirect(route('login'));
     }
 
@@ -137,7 +163,13 @@ class TasksRoutesTest extends TestCase
         $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
 
         $response->assertRedirect(route('tasks.index'));
-        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+
+        $this->assertDatabaseMissing(
+            'tasks',
+            [
+                'id' => $task->id,
+            ]
+        );
     }
 
     public function testTasksDestroyForbiddenForNonAuthor(): void
@@ -148,6 +180,12 @@ class TasksRoutesTest extends TestCase
         $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
 
         $response->assertForbidden();
-        $this->assertDatabaseHas('tasks', ['id' => $task->id]);
+
+        $this->assertDatabaseHas(
+            'tasks',
+            [
+                'id' => $task->id,
+            ]
+        );
     }
 }

@@ -18,9 +18,20 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, fileinfo, pdo, curl, tokenizer, xml, ctype, json, bcmath, openssl, pdo_sqlite
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Composer install
         run: make install
 
+      - name: Install npm dependencies
+        run: npm ci
+      
+      - name: Build frontend assets
+        run: npm run build
+        
       - name: Copy .env.example to .env
         run: cp .env.example .env
 

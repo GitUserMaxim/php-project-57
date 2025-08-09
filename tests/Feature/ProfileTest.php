@@ -24,9 +24,10 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->patch(
-            '/profile', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            '/profile',
+            [
+                'name' => 'Test User',
+                'email' => 'test@example.com',
             ]
         );
 
@@ -44,9 +45,10 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->patch(
-            '/profile', [
-            'name' => 'Test User',
-            'email' => $user->email,
+            '/profile',
+            [
+                'name' => 'Test User',
+                'email' => $user->email,
             ]
         );
 
@@ -60,8 +62,9 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->delete(
-            '/profile', [
-            'password' => 'password',
+            '/profile',
+            [
+                'password' => 'password',
             ]
         );
 
@@ -76,8 +79,9 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->from('/profile')->delete(
-            '/profile', [
-            'password' => 'wrong-password',
+            '/profile',
+            [
+                'password' => 'wrong-password',
             ]
         );
 

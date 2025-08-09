@@ -23,10 +23,11 @@ class LabelController extends Controller
     {
         $validated = $request->validate(
             [
-            'name' => 'required|string|max:255|unique:labels,name',
-            'description' => 'nullable|string',
-            ], [
-            'name.unique' => __('messages.The label with this name already exists'),
+                'name' => 'required|string|max:255|unique:labels,name',
+                'description' => 'nullable|string',
+            ],
+            [
+                'name.unique' => __('messages.The label with this name already exists'),
             ]
         );
 
@@ -46,21 +47,23 @@ class LabelController extends Controller
     {
         $validated = $request->validate(
             [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('labels', 'name'),
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('labels', 'name'),
+                ],
+                'description' => 'nullable|string',
             ],
-            'description' => 'nullable|string',
-            ], [
-            'name.unique' => __('messages.The label with this name already exists'),
+            [
+                'name.unique' => __('messages.The label with this name already exists'),
             ]
         );
 
         $label->update($validated);
 
         flash(__('messages.The label was updated successfully'))->success();
+
         return redirect()->route('labels.index');
     }
 
@@ -68,11 +71,14 @@ class LabelController extends Controller
     {
         if ($label->tasks()->exists()) {
             flash(__('messages.Label delete failed'))->error();
+
             return redirect()->route('labels.index');
         }
 
         $label->delete();
+
         flash(__('messages.The label was successfully deleted'))->success();
+
         return redirect()->route('labels.index');
     }
 }
