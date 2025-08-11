@@ -4,8 +4,6 @@ validate:
 	composer validate
 lint:
 	vendor/bin/phpcs app/ routes/ tests/ resources/
-fix:
-	vendor/bin/phpcbf app/ routes/ resources/ tests/ bootstrap/ database/ lang/
 up:
 	composer update
 test-coverage:
@@ -13,7 +11,7 @@ test-coverage:
 test-coverage-html:
 	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --coverage-html build/coverage/html
 check:
-	vendor/bin/phpstan analyse --level 5 src
+	vendor/bin/phpstan analyse --level 5 app/ routes/ tests/ resources/
 start:
 	php artisan serve	
 test:
