@@ -22,7 +22,7 @@ class PasswordConfirmationTest extends TestCase
     public function testPasswordCanBeConfirmed(): void
     {
         $user = User::factory()->create();
-
+        
         $response = $this->actingAs($user)->post(
             '/confirm-password',
             [

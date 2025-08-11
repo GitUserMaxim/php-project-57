@@ -44,21 +44,6 @@ jobs:
       - name: Generate coverage report
         run: make test-coverage
 
-      - name: Publish code coverage
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: make test-coverage
-          coverageLocations: ${{ github.workspace }}/build/logs/clover.xml:clover
-          debug: true
-
-      - name: Upload HTML coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: build/coverage/html
-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:

@@ -24,12 +24,11 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
-        return $user !== null;
+        return true;
     }
 
     public function delete(User $user, Task $task): bool
     {
-        // Только создатель может удалять
         return $user->id === $task->created_by_id;
     }
 
