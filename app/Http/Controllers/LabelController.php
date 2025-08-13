@@ -24,10 +24,11 @@ class LabelController extends Controller
         $validated = $request->validate(
             [
                 'name' => 'required|string|max:255|unique:labels,name',
-                'description' => 'nullable|string',
+                'description' => 'nullable|string|max:500',
             ],
             [
                 'name.unique' => __('messages.The label with this name already exists'),
+                'description.max' => __('messages.The description must not be greater than 500 characters.'),
             ]
         );
 
@@ -57,6 +58,7 @@ class LabelController extends Controller
             ],
             [
                 'name.unique' => __('messages.The label with this name already exists'),
+                'description.max' => __('messages.The description must not be greater than 500 characters.'),
             ]
         );
 

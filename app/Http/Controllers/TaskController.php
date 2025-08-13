@@ -58,15 +58,17 @@ class TaskController extends Controller
     {
         $validated = $request->validate(
             [
-                'name' => 'required|string|unique:tasks,name',
-                'description' => 'nullable|string',
+                'name' => 'required|string|max:255|unique:tasks,name',
+                'description' => 'nullable|string|max:500',
                 'status_id' => 'required|exists:task_statuses,id',
                 'assigned_to_id' => 'nullable|exists:users,id',
                 'labels' => 'array',
                 'labels.*' => 'exists:labels,id',
             ],
             [
-                'name.unique' => 'Задача с таким именем уже существует',
+                'name.unique' => __('messages.A task with this name already exists'),
+                'name.max' => __('messages.The name must not be greater than 255 characters.'),
+                'description.max' => __('messages.The description must not be greater than 500 characters.'),
             ]
         );
 
@@ -104,7 +106,9 @@ class TaskController extends Controller
                 'labels.*' => 'exists:labels,id',
             ],
             [
-                'name.unique' => 'Задача с таким именем уже существует',
+                'name.unique' => __('messages.A task with this name already exists'),
+                'name.max' => __('messages.The name must not be greater than 255 characters.'),
+                'description.max' => __('messages.The description must not be greater than 500 characters.'),
             ]
         );
 

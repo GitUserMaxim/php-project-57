@@ -101,4 +101,6 @@ return [
     'Edit status' => 'Изменение статуса',
     'The label was updated successfully' => 'Метка успешно изменена',
     'Edit Label' => 'Изменение метки',
+    'The description must not be greater than 500 characters.' => 'Описание не должно быть длиннее 500 символов.',
+    'The name must not be greater than 255 characters.' => 'Имя не должно быть длиннее 255 символов.',
  ];
