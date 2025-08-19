@@ -52,9 +52,9 @@ class LabelController extends Controller
                     'required',
                     'string',
                     'max:255',
-                    Rule::unique('labels', 'name'),
+                    Rule::unique('labels', 'name')->ignore($label->id),
                 ],
-                'description' => 'nullable|string',
+                'description' => 'nullable|string|max:500',
             ],
             [
                 'name.unique' => __('messages.The label with this name already exists'),
