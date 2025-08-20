@@ -88,12 +88,10 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        $this->authorize('delete', $task);
-
         $task->delete();
 
         flash(__('messages.The task was successfully deleted'))->success();
 
-        return redirect()->route('tasks.index')->with('success', 'Task deleted.');
+        return redirect()->route('tasks.index');
     }
 }

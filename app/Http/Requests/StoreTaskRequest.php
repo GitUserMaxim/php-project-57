@@ -36,7 +36,7 @@ class StoreTaskRequest extends FormRequest
      *
      * @return array
      */
-     public function messages(): array
+    public function messages(): array
     {
         return [
             'name.unique'     => __('messages.A task with this name already exists'),
