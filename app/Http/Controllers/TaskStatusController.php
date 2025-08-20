@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\TaskStatus;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\StoreTaskStatusRequest;
+use App\Http\Requests\UpdateTaskStatusRequest;
 
 class TaskStatusController extends Controller
 {
@@ -35,31 +33,13 @@ class TaskStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskStatusRequest $request)
     {
-        $request->validate(
-            [
-                'name' => 'required|string|max:255|unique:task_statuses,name',
-            ],
-            [
-                'name.unique' => 'Статус с таким именем уже существует',
-            ]
-        );
-        TaskStatus::create(
-            $request->only('name')
-        );
+        TaskStatus::create($request->validated());
 
         flash(__('messages.Status successfully created'))->success();
 
         return redirect()->route('task_statuses.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -73,24 +53,9 @@ class TaskStatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TaskStatus $task_status)
+    public function update(UpdateTaskStatusRequest $request, TaskStatus $task_status)
     {
-        $request->validate(
-            [
-                'name' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    Rule::unique('task_statuses', 'name'),
-                ],
-            ],
-            [
-                'name.unique' => 'Статус с таким именем уже существует',
-            ]
-        );
-        $task_status->update(
-            $request->only('name')
-        );
+        $task_status->update($request->validated());
 
         flash(__('messages.Status successfully updated'))->success();
 

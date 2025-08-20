@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Label;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\StoreLabelRequest;
+use App\Http\Requests\UpdateLabelRequest;
 
 class LabelController extends Controller
 {
@@ -19,20 +19,9 @@ class LabelController extends Controller
         return view('labels.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreLabelRequest $request)
     {
-        $validated = $request->validate(
-            [
-                'name' => 'required|string|max:255|unique:labels,name',
-                'description' => 'nullable|string|max:500',
-            ],
-            [
-                'name.unique' => __('messages.The label with this name already exists'),
-                'description.max' => __('messages.The description must not be greater than 500 characters.'),
-            ]
-        );
-
-        Label::create($validated);
+        Label::create($request->validated());
 
         flash(__('messages.The label was created successfully'))->success();
 
@@ -44,25 +33,9 @@ class LabelController extends Controller
         return view('labels.edit', compact('label'));
     }
 
-    public function update(Request $request, Label $label)
+    public function update(UpdateLabelRequest $request, Label $label)
     {
-        $validated = $request->validate(
-            [
-                'name' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    Rule::unique('labels', 'name')->ignore($label->id),
-                ],
-                'description' => 'nullable|string|max:500',
-            ],
-            [
-                'name.unique' => __('messages.The label with this name already exists'),
-                'description.max' => __('messages.The description must not be greater than 500 characters.'),
-            ]
-        );
-
-        $label->update($validated);
+        $label->update($request->validated());
 
         flash(__('messages.The label was updated successfully'))->success();
 

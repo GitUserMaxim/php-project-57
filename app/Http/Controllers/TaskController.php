@@ -6,10 +6,11 @@ use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\TaskStatus;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -54,27 +55,12 @@ class TaskController extends Controller
         return view('tasks.create', compact('statuses', 'users', 'labels'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $validated = $request->validate(
-            [
-                'name' => 'required|string|max:255|unique:tasks,name',
-                'description' => 'nullable|string|max:500',
-                'status_id' => 'required|exists:task_statuses,id',
-                'assigned_to_id' => 'nullable|exists:users,id',
-                'labels' => 'array',
-                'labels.*' => 'exists:labels,id',
-            ],
-            [
-                'name.unique' => __('messages.A task with this name already exists'),
-                'name.max' => __('messages.The name must not be greater than 255 characters.'),
-                'description.max' => __('messages.The description must not be greater than 500 characters.'),
-            ]
-        );
+        $data = $request->validated();
+        $data['created_by_id'] = auth()->id();
 
-        $validated['created_by_id'] = auth()->id();
-
-        $task = Task::create($validated);
+        $task = Task::create($data);
         $task->labels()->sync($request->input('labels', []));
 
         flash(__('messages.The task was successfully created'))->success();
@@ -90,29 +76,9 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $validated = $request->validate(
-            [
-                'name' => [
-                    'required',
-                    'string',
-                    Rule::unique('tasks', 'name'),
-                ],
-                'description' => 'nullable|string',
-                'status_id' => 'required|exists:task_statuses,id',
-                'assigned_to_id' => 'nullable|exists:users,id',
-                'labels' => 'array',
-                'labels.*' => 'exists:labels,id',
-            ],
-            [
-                'name.unique' => __('messages.A task with this name already exists'),
-                'name.max' => __('messages.The name must not be greater than 255 characters.'),
-                'description.max' => __('messages.The description must not be greater than 500 characters.'),
-            ]
-        );
-
-        $task->update($validated);
+        $task->update($request->validated());
         $task->labels()->sync($request->input('labels', []));
 
         flash(__('messages.The task has been successfully updated'))->success();
